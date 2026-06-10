@@ -36,7 +36,7 @@ function generateDispersed(count: number): Float32Array {
   return out;
 }
 
-export function FaceParticles({ scrollProgress, src = "/headshot.jpg" }: Props) {
+export function FaceParticles({ scrollProgress, src = "/headshot.png" }: Props) {
   const pointsRef = useRef<THREE.Points>(null);
   const [base, setBase] = useState<Float32Array | null>(null);
 

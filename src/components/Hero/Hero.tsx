@@ -32,7 +32,7 @@ export function Hero() {
         <div className="relative flex h-[78vh] max-h-[820px] w-full items-center justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/headshot.jpg"
+            src="/headshot.png"
             alt="Portrait of Rajat Kaliani"
             className="h-full w-auto select-none object-contain opacity-95"
             draggable={false}
