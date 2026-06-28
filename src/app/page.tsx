@@ -1,55 +1,53 @@
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Reveal } from "@/components/Reveal";
+import { Magnetic } from "@/components/Magnetic";
+import { LocalTime } from "@/components/LocalTime";
 
 const experience = [
   {
-    role: "Software Engineering Intern",
-    company: "GoodRx",
-    detail: "Search Engine Optimization",
-    period: "Summer 2026",
-    upcoming: true,
-  },
-  {
-    role: "Software Development Engineer Intern",
-    company: "Amazon Web Services — Elastic Block Store (EBS)",
-    detail: "",
+    company: "Amazon Web Services",
+    role: "SDE Intern",
+    detail: "Elastic Block Store (EBS)",
     period: "Fall 2026",
     upcoming: true,
   },
   {
-    role: "Software Engineer Intern",
-    company: "KBR / NASA (TOWR-S Program)",
-    detail:
-      "Built geospatial ML/data pipelines for satellite data deployed to AWIPS across 156 WFOs; optimized AWS CI/CD infrastructure (EC2, Lambda, SQS, DynamoDB) supporting 24/7 systems.",
-    period: "Mar 2026 — Present",
+    company: "GoodRx",
+    role: "SWE Intern",
+    detail: "Search Engine Optimization",
+    period: "Jun 2026 — Present",
   },
   {
-    role: "Software Engineer Intern",
+    company: "KBR / NASA",
+    role: "SWE Intern · TOWR-S",
+    detail: "Geospatial ML, satellite modeling & cloud infrastructure",
+    period: "Mar — Jun 2026",
+  },
+  {
     company: "Cadomi.ai",
-    detail:
-      "Designed an NLP-driven MCP backend for AI-assisted sprint planning with RAG-based LLM orchestration over Git PR data, boosting issue relevance by 40%.",
+    role: "SWE Intern",
+    detail: "MCP-powered AI agent orchestration with RAG",
     period: "Dec 2025 — Mar 2026",
   },
   {
-    role: "Full-Stack Developer (Contract)",
-    company: "Orange County Community Health Center",
-    detail:
-      "Built a provider quota system in React/TypeScript handling 15,000+ daily requests at 99.6% uptime, backed by 30+ REST APIs and a PostgreSQL schema.",
+    company: "OC Community Health Center",
+    role: "Full-Stack Dev",
+    detail: "Full-stack healthcare data management platform",
     period: "Sep 2025 — Present",
   },
   {
-    role: "Software Engineering Intern",
     company: "Teachrity AI",
-    detail:
-      "Stress-tested foundation models against 10,000+ K–12 standards, improving RAG curriculum accuracy by 35% and cutting hallucinations by 40%.",
-    period: "Jun 2025 — Oct 2025",
+    role: "SWE Intern",
+    detail: "RAG-powered curriculum intelligence for K-12 education",
+    period: "Jun — Oct 2025",
   },
 ];
 
 const projects = [
   {
     name: "Web Search Engine",
-    stack: "Python · Flask · TF-IDF · Information Retrieval",
+    stack: "Python · Flask · TF-IDF · IR",
     description:
       "Full-stack search engine over 53,792 pages with a custom inverted index, positional indexing, and disk-based retrieval at sub-millisecond latency. Parallel indexing across 4 workers (1.07M terms), ranked with PageRank, n-gram boosting, and SimHash LSH dedup.",
   },
@@ -61,13 +59,39 @@ const projects = [
   },
 ];
 
-const skills = {
-  Languages:
-    "Python, Java, Kotlin, C, C++, C#, JavaScript, TypeScript, SQL, Rust, Ruby, Swift, Scala",
-  "Frameworks & Tools":
-    "React, Spring Boot, FastAPI, GraphQL, gRPC, PyTorch, TensorFlow, Redux, Jest, Pytest",
-  "DevOps & Cloud":
-    "AWS, Docker, Kubernetes, Kafka, Redis, PostgreSQL, MySQL, Elasticsearch, Spark, Bazel",
+const skills: Record<string, string[]> = {
+  Languages: [
+    "Python",
+    "Java",
+    "Kotlin",
+    "C",
+    "C++",
+    "C#",
+    "TypeScript",
+    "SQL",
+    "Rust",
+    "Swift",
+    "Scala",
+  ],
+  Frameworks: [
+    "React",
+    "Spring Boot",
+    "FastAPI",
+    "GraphQL",
+    "gRPC",
+    "PyTorch",
+    "TensorFlow",
+  ],
+  Infra: [
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "Kafka",
+    "Redis",
+    "PostgreSQL",
+    "Elasticsearch",
+    "Spark",
+  ],
 };
 
 const links = [
@@ -78,126 +102,246 @@ const links = [
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16 sm:py-24">
-      <header className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-5">
-          <Image
-            src="/headshot.png"
-            alt="Rajat Kaliani"
-            width={72}
-            height={72}
-            className="rounded-full object-cover"
-            priority
-          />
+    <main className="mx-auto max-w-2xl px-6 pb-24 pt-8 sm:pt-12">
+      {/* top bar */}
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-muted">
+          rajatkaliani.com
+        </span>
+        <ThemeToggle />
+      </div>
+
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <Reveal as="header" className="mt-16 sm:mt-20">
+        <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+          <span className="status-dot h-[7px] w-[7px] rounded-full bg-accent" />
+          Available · 2026 internships
+        </span>
+
+        <div className="mt-7 flex items-start justify-between gap-8">
           <div>
-            <h1 className="text-2xl font-semibold text-ink">Rajat Kaliani</h1>
-            <p className="text-muted">AI &amp; Software Engineer</p>
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
+              Rajat Kaliani
+            </h1>
+            <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              AI / Software Engineer
+            </p>
+            <p className="mt-6 max-w-[54ch] text-[15px] leading-[1.7] text-body text-balance sm:text-base">
+              Building intelligent systems at UC Irvine across ML, backend, and
+              cloud — from RAG pipelines and search engines to production
+              systems serving thousands daily.
+            </p>
+
+            <nav className="mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs">
+              {links.map((link) => (
+                <Magnetic key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline-grow inline-flex items-center gap-1 pb-0.5 uppercase tracking-wider text-muted transition-colors hover:text-ink"
+                  >
+                    {link.label}
+                    <span aria-hidden className="text-faint">
+                      ↗
+                    </span>
+                  </a>
+                </Magnetic>
+              ))}
+            </nav>
+          </div>
+
+          {/* portrait — clean frame, aligned to the name */}
+          <div className="group/portrait hidden shrink-0 overflow-hidden rounded-xl ring-1 ring-line sm:block">
+            <Image
+              src="/headshot.png"
+              alt="Rajat Kaliani"
+              width={104}
+              height={104}
+              className="h-[104px] w-[104px] object-cover transition-transform duration-500 ease-out group-hover/portrait:scale-[1.03]"
+              preload
+            />
           </div>
         </div>
-        <ThemeToggle />
-      </header>
+      </Reveal>
 
-      <section className="mt-12">
-        <p className="text-lg leading-relaxed text-ink/90 text-balance">
-          CS student at UC Irvine building intelligent systems across ML,
-          backend, and cloud infrastructure — from RAG pipelines and search
-          engines to production systems serving thousands of daily requests.
-        </p>
-      </section>
+      <Section n="01" title="Experience">
+        {experience.map((job, i) => (
+          <Reveal key={job.company} delay={i * 50}>
+            <Entry
+              meta={job.period}
+              title={job.company}
+              sub={job.role}
+              badge={job.upcoming ? "incoming" : undefined}
+              body={job.detail}
+              active={job.upcoming}
+            />
+          </Reveal>
+        ))}
+      </Section>
 
-      <Section title="Experience">
-        <ul className="space-y-7">
-          {experience.map((job) => (
-            <li key={job.company}>
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-medium text-ink">
-                  {job.company}{" "}
-                  <span className="text-muted">· {job.role}</span>
-                  {job.upcoming && (
-                    <span className="ml-2 rounded-full border border-accent/40 bg-accent-soft px-2 py-0.5 text-[11px] font-normal text-accent">
-                      incoming
+      <Section n="02" title="Research">
+        <Reveal>
+          <Entry
+            meta="2026 — Present"
+            title="AI in Science Institute"
+            sub="UC Irvine"
+            body="Deep learning on high-dimensional circadian omics datasets to model temporal gene expression and infer circadian-regulated gene activation dynamics."
+            link={{
+              href: "https://circadiomics.igb.uci.edu/",
+              label: "Circadiomics",
+            }}
+          />
+        </Reveal>
+      </Section>
+
+      <Section n="03" title="Projects">
+        {projects.map((project, i) => (
+          <Reveal key={project.name} delay={i * 50}>
+            <Entry
+              meta={project.stack}
+              title={project.name}
+              body={project.description}
+            />
+          </Reveal>
+        ))}
+      </Section>
+
+      <Section n="04" title="Skills">
+        <dl className="space-y-5">
+          {Object.entries(skills).map(([group, items], i) => (
+            <Reveal key={group} delay={i * 50}>
+              <div className="sm:grid sm:grid-cols-[6.5rem_1fr] sm:gap-6">
+                <dt className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted sm:mb-0 sm:pt-1.5">
+                  {group}
+                </dt>
+                <dd className="flex flex-wrap gap-2">
+                  {items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-body transition-colors hover:border-muted"
+                    >
+                      {item}
                     </span>
-                  )}
-                </h3>
-                <span className="shrink-0 text-sm text-muted">{job.period}</span>
+                  ))}
+                </dd>
               </div>
-              {job.detail && (
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                  {job.detail}
-                </p>
-              )}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section title="Projects">
-        <ul className="space-y-6">
-          {projects.map((project) => (
-            <li key={project.name}>
-              <h3 className="font-medium text-ink">{project.name}</h3>
-              <p className="mt-0.5 font-mono text-xs text-accent">
-                {project.stack}
-              </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                {project.description}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section title="Skills">
-        <dl className="space-y-3">
-          {Object.entries(skills).map(([group, items]) => (
-            <div key={group} className="sm:flex sm:gap-4">
-              <dt className="shrink-0 text-sm font-medium text-ink sm:w-36">
-                {group}
-              </dt>
-              <dd className="text-sm text-muted">{items}</dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </Section>
 
-      <Section title="Education">
-        <div className="flex items-baseline justify-between gap-4">
-          <div>
-            <h3 className="font-medium text-ink">University of California, Irvine</h3>
-            <p className="text-sm text-muted">B.S. Computer Science · GPA 3.73</p>
-          </div>
-          <span className="shrink-0 text-sm text-muted">June 2028</span>
-        </div>
+      <Section n="05" title="Education">
+        <Reveal>
+          <Entry
+            meta="June 2028"
+            title="University of California, Irvine"
+            sub="B.S. Computer Science"
+            body="GPA 3.73 · Coursework in systems design, ML, information retrieval, and security."
+          />
+        </Reveal>
       </Section>
 
-      <footer className="mt-16 flex gap-6 border-t border-line pt-8">
-        {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className="text-sm text-muted transition-colors hover:text-accent"
-          >
-            {link.label}
-          </a>
-        ))}
+      {/* ── Footer / engineering metadata ─────────────────────── */}
+      <footer className="mt-24 border-t border-line pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-y-2 font-mono text-[11px] text-muted">
+          <span className="text-body">Rajat Kaliani</span>
+          <span className="tnum">33.6405°N · 117.8443°W</span>
+          <LocalTime />
+        </div>
+        <p className="mt-3 font-mono text-[11px] text-faint">
+          Built with Next.js & Tailwind · designed pixel by pixel
+        </p>
       </footer>
     </main>
   );
 }
 
 function Section({
+  n,
   title,
   children,
 }: {
+  n: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-14">
-      <h2 className="mb-5 text-xs font-medium uppercase tracking-wider text-muted">
-        {title}
-      </h2>
+    <section className="mt-20">
+      <Reveal className="mb-8 flex items-center gap-3">
+        <span className="font-mono text-[11px] tnum text-muted">{n}</span>
+        <h2 className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink">
+          {title}
+        </h2>
+        <span className="h-px flex-1 bg-line" />
+      </Reveal>
       {children}
     </section>
+  );
+}
+
+function Entry({
+  meta,
+  title,
+  sub,
+  badge,
+  body,
+  link,
+  active,
+}: {
+  meta: string;
+  title: string;
+  sub?: string;
+  badge?: string;
+  body?: string;
+  link?: { href: string; label: string };
+  active?: boolean;
+}) {
+  return (
+    <div className="group grid grid-cols-1 gap-x-6 gap-y-2 py-5 sm:grid-cols-[7rem_1fr]">
+      {/* date / meta column */}
+      <div className="font-mono text-[11px] tnum leading-relaxed text-muted">
+        {meta}
+      </div>
+
+      {/* content column — left rail forms a continuous timeline */}
+      <div className="relative border-l border-line pl-6">
+        <span
+          aria-hidden
+          className={`absolute -left-[3.5px] top-[7px] h-[7px] w-[7px] rounded-full ring-4 ring-bg transition-colors ${
+            active
+              ? "bg-accent"
+              : "bg-line group-hover:bg-muted"
+          }`}
+        />
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          <h3 className="entry-title font-medium text-ink">{title}</h3>
+          {sub && <span className="text-sm text-muted">· {sub}</span>}
+          {badge && (
+            <span className="rounded-full border border-accent/40 bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
+              {badge}
+            </span>
+          )}
+        </div>
+        {body && (
+          <p className="mt-2 max-w-[58ch] text-sm leading-relaxed text-body">
+            {body}
+          </p>
+        )}
+        {link && (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            className="underline-grow mt-2.5 inline-flex items-center gap-1 pb-0.5 text-sm text-ink transition-colors hover:text-accent"
+          >
+            {link.label}
+            <span aria-hidden className="text-faint">
+              ↗
+            </span>
+          </a>
+        )}
+      </div>
+    </div>
   );
 }

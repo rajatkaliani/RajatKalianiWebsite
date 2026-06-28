@@ -6,7 +6,9 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-ink: var(--ink);
+  --color-body: var(--body);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
@@ -15,51 +17,166 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/*
+  Three-tier text hierarchy — ink (headings) > body (paragraphs) > muted (metadata).
+  Gold (--accent) is reserved for status, active indicators, and hover underlines only.
+*/
 :root {
   color-scheme: light;
-  --bg: #f3eee8;
-  --surface: #faf7f2;
-  --ink: #141414;
-  --muted: #6b6b6b;
-  --line: #e3dad0;
-  --accent: #ff9a1f;
-  --accent-soft: rgba(255, 154, 31, 0.1);
-  --glow: rgba(255, 196, 90, 0.1);
+  --bg: #f4f1ea;
+  --surface: #faf7f1;
+  --ink: #191917;
+  --body: #45413a;
+  --muted: #837c71;
+  --faint: #a8a194;
+  --line: #e5ded3;
+  --accent: #b9791a;
+  --accent-soft: rgba(185, 121, 26, 0.1);
+  --glow: rgba(190, 130, 40, 0.05);
+  --vignette: rgba(40, 30, 10, 0.04);
 }
 
 .dark {
   color-scheme: dark;
-  --bg: #161310;
-  --surface: #1f1b17;
-  --ink: #f5f1ea;
-  --muted: #a59c8f;
-  --line: #2e2823;
-  --accent: #ffc45a;
-  --accent-soft: rgba(255, 196, 90, 0.1);
-  --glow: rgba(255, 181, 71, 0.06);
+  --bg: #131210;
+  --surface: #1b1916;
+  --ink: #f3efe8;
+  --body: #c3bcb1;
+  --muted: #8d867b;
+  --faint: #5f594f;
+  --line: #2a2622;
+  --accent: #efb85a;
+  --accent-soft: rgba(239, 184, 90, 0.1);
+  --glow: rgba(239, 184, 90, 0.045);
+  --vignette: rgba(0, 0, 0, 0.34);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   background: var(--bg);
-  color: var(--ink);
+  color: var(--body);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background:
-    radial-gradient(ellipse at 20% 0%, var(--glow), transparent 50%),
-    var(--bg);
   min-height: 100dvh;
+}
+
+/* faint paper grain — invisible until you stare */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  opacity: 0.022;
+}
+
+.dark body::before {
+  opacity: 0.04;
+}
+
+/* one warm corner light + a barely-there vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(620px circle at 100% -8%, var(--glow), transparent 55%),
+    radial-gradient(135% 115% at 50% 0%, transparent 58%, var(--vignette));
 }
 
 ::selection {
   background: var(--accent);
-  color: #141414;
+  color: #fff;
 }
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Scroll reveal ────────────────────────────────────────────
+   The inline head script adds `.js` before first paint, so content
+   is never hidden for crawlers or no-JS visitors. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 0.61, 0.21, 1),
+    transform 0.6s cubic-bezier(0.22, 0.61, 0.21, 1);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Hover underline (links + entry titles) ───────────────────
+   Gold underline that wipes in — one of the few sanctioned uses
+   of the accent. */
+.underline-grow {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.3s cubic-bezier(0.22, 0.61, 0.21, 1);
+}
+
+.underline-grow:hover,
+.group:hover .entry-title {
+  background-size: 100% 1px;
+}
+
+.entry-title {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.3s cubic-bezier(0.22, 0.61, 0.21, 1);
+}
+
+/* ── Status dot ──────────────────────────────────────────────── */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.status-dot {
+  animation: pulse-soft 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
